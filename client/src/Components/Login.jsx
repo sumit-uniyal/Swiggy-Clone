@@ -1,14 +1,23 @@
 import React from "react";
 import { GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from "jwt-decode";
 import {app_url} from '../Constant'
+import axios from 'axios'
 
 const Login = () => {
-  const handleGoogleLogin = (credentialResponse)=>{
-    const response = jwtDecode(credentialResponse.credential)
-    console.log(app_url)
+  const handleGoogleLogin = async(credentialResponse)=>{
 
+    try {
+      const URL = app_url+'auth/login';
+      const response = await axios.post(URL,{
+        token:credentialResponse.credential
+      })
+      console.log(response)
+      
+    } catch (error) {
+      console.log('error in verifying token '+error)
+    }
   }
+  // console.log(app_url)
   return (
     <div className="flex h-screen">
       {/* Left Side - Image Section */}
