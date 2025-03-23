@@ -1,6 +1,6 @@
 const {OAuth2Client} = require('google-auth-library');
-var jwt = require('jsonwebtoken');
-
+const jwt = require('jsonwebtoken');
+const User = require('../Models/UserSchema')
 
 const login = async(req,res)=>{
     try {
@@ -11,7 +11,16 @@ const login = async(req,res)=>{
         });
 
         const { sub, name, email, picture } = result.getPayload();
-        res.status(200).json({'msg':'Login successfully',name:name,email:email, picture:picture})
+        const user = await User.findOne({'email':email});
+        if(!user){
+            const user =await User.create({
+                name,
+                email,
+                profileImg:picture,
+                password:'dummypass@123'
+            })
+        }
+        res.status(200).json({'msg':'Login successfully',name:name,email:email, picture:picture,token:await user.getToken()})
     } catch (error) {
         res.status(400).json({'msg':'Unable to login this time'})
     }
