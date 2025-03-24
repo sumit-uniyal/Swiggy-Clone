@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router";
 
 const Header = () => {
+  const {isAdmin, profileImg} = useSelector((state)=> state.auth)
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -49,10 +52,19 @@ const Header = () => {
             </div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                <a href="#" className="rounded-md bg-gray-200 px-3 py-2 text-sm font-medium text-gray-800">Dashboard</a>
-                <a href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100">Team</a>
-                <a href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100">Projects</a>
-                <a href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100">Calendar</a>
+                {isAdmin ? (
+                  <>
+                    <NavLink to='/resturents' >Resturents</NavLink>
+                    <NavLink to='/resturents' >Resturents</NavLink>
+                  </>
+                ) : (
+                  <>
+                    <a href="#" className="rounded-md bg-gray-200 px-3 py-2 text-sm font-medium text-gray-800">Dashboard</a>
+                    <a href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100">Team</a>
+                    <a href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100">Projects</a>
+                    <a href="#" className="rounded-md px-3 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100">Calendar</a>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -65,7 +77,8 @@ const Header = () => {
               className="relative flex rounded-full bg-gray-200 text-sm focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
             >
               <span className="sr-only">Open user menu</span>
-              <img className="size-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+              <img className="size-8 rounded-full" src={profileImg} alt="" />
+              
             </button>
 
             {/* Dropdown Menu */}

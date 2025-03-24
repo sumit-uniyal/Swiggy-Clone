@@ -1,21 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleLogin } from '@react-oauth/google';
 import {app_url} from '../Constant'
 import axios from 'axios'
+import {useDispatch} from 'react-redux'
+import { login } from "../Store/Slices/AuthSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const handleGoogleLogin = async(credentialResponse)=>{
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-    try {
-      const URL = app_url+'auth/login';
-      const response = await axios.post(URL,{
-        token:credentialResponse.credential
-      })
-      console.log(response)
-      
-    } catch (error) {
-      console.log('error in verifying token '+error)
+  const [credentialResponse, setCredentialResponse] = useState('');
+
+  useEffect(()=>{
+    const verifyToken = async()=>{
+      try {
+        if(!credentialResponse){
+          return;
+        }
+        
+        const URL = app_url+'auth/login';
+        const response = await axios.post(URL,{
+          token:credentialResponse.credential
+        })
+        dispatch(login(response.data))
+        navigate('/')
+      } catch (error) {
+        console.log('error in 2 verifying token '+error)
+      }
     }
+    verifyToken()
+  },[credentialResponse])
+
+  const handleGoogleLogin = (credentialResponse)=>{
+      setCredentialResponse(credentialResponse)
   }
   // console.log(app_url)
   return (
