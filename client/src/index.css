@@ -1,1 +1,49 @@
 @import "tailwindcss";
+/* Swiper Container */
+.swiper {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Swiper Slide */
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  /* Active Slide */
+  .swiper-slide-active {
+    transform: scale(1.05); /* Slight zoom effect */
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Swiper Wrapper */
+  .swiper-wrapper {
+    display: flex;
+  }
+  
+  /* Swiper Pagination Dots */
+  .swiper-pagination {
+    position: relative;
+    bottom: 10px;
+    text-align: center;
+  }
+  
+  .swiper-pagination-bullet {
+    background: #666;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .swiper-pagination-bullet-active {
+    background: #4caf50; /* Active bullet color */
+    width: 12px;
+    height: 12px;
+  }
+  
